@@ -1,5 +1,0 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-// Pricing Section
-export default function PricingSection() {
-    return (_jsxs("section", { className: "py-16 bg-gray-900 text-white", children: [_jsx("h2", { className: "text-4xl font-bold text-center", children: "Our Digital Products" }), _jsxs("div", { className: "flex justify-center gap-8 mt-8", children: [_jsxs("div", { className: "bg-blue-700 p-6 rounded-xl text-center w-80", children: [_jsx("h3", { className: "text-2xl font-bold", children: "Product 1" }), _jsx("p", { className: "mt-2", children: "Description of the product." }), _jsx("button", { className: "mt-4 bg-white text-blue-700 px-4 py-2 rounded", children: "Buy Now" })] }), _jsxs("div", { className: "bg-blue-700 p-6 rounded-xl text-center w-80", children: [_jsx("h3", { className: "text-2xl font-bold", children: "Product 2" }), _jsx("p", { className: "mt-2", children: "Description of the product." }), _jsx("button", { className: "mt-4 bg-white text-blue-700 px-4 py-2 rounded", children: "Buy Now" })] })] })] }));
-}
