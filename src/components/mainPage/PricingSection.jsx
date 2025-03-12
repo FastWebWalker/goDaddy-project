@@ -2,6 +2,44 @@
 import React from "react";
 
 export default function PricingSection() {
+  const handlePurchase = async (priceId) => {
+    try {
+      const res = await fetch("/api/create-liqpay-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId }),
+      });
+      const { data, signature, error } = await res.json();
+
+      if (error) {
+        throw new Error(error);
+      }
+
+      // Створюємо форму динамічно та відправляємо її на LiqPay
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = "https://www.liqpay.ua/api/3/checkout";
+      form.style.display = "none";
+
+      const inputData = document.createElement("input");
+      inputData.type = "hidden";
+      inputData.name = "data";
+      inputData.value = data;
+      form.appendChild(inputData);
+
+      const inputSignature = document.createElement("input");
+      inputSignature.type = "hidden";
+      inputSignature.name = "signature";
+      inputSignature.value = signature;
+      form.appendChild(inputSignature);
+
+      document.body.appendChild(form);
+      form.submit();
+    } catch (error) {
+      console.error("LiqPay checkout error:", error);
+    }
+  };
+
   return (
     <section className="py-16 bg-gray-900 text-white">
       <div className="container mx-auto px-4">
@@ -14,7 +52,9 @@ export default function PricingSection() {
             <p className="mt-2">
               Короткий опис продукту (наприклад, інтенсивна програма).
             </p>
-            <button className="mt-4 bg-white text-blue-700 px-4 py-2 rounded font-semibold">
+            <button
+              onClick={() => handlePurchase("price_5day")} // Замініть на свій Price ID
+              className="mt-4 bg-white text-blue-700 px-4 py-2 rounded font-semibold">
               Придбати
             </button>
           </div>
@@ -24,11 +64,13 @@ export default function PricingSection() {
             <p className="mt-2">
               Короткий опис продукту (довгострокова програма).
             </p>
-            <button className="mt-4 bg-white text-blue-700 px-4 py-2 rounded font-semibold">
+            <button
+              onClick={() => handlePurchase("price_21day")} // Замініть на свій Price ID
+              className="mt-4 bg-white text-blue-700 px-4 py-2 rounded font-semibold">
               Придбати
             </button>
           </div>
-          {/* Можна додати інші продукти за потреби */}
+          {/* Додаткові продукти */}
         </div>
 
         {/* Блок: Чему я учу */}
