@@ -3,7 +3,7 @@ import crypto from "crypto";
 
 export async function POST(request) {
   try {
-    const { priceId } = await request.json();
+    const { priceId, email } = await request.json();
 
     // Визначаємо параметри платежу залежно від productId
     let amount = "100"; // За замовчуванням
@@ -31,9 +31,16 @@ export async function POST(request) {
       currency: "UAH",
       description: description,
       order_id: order_id,
-      sandbox: "1",
-      server_url: process.env.NEXT_PUBLIC_BASE_URL + "/api/liqpay-callback", // URL для callback (якщо потрібен)
+      sandbox: "0",
+      server_url:
+        process.env.NEXT_PUBLIC_BASE_URL +
+        `/api/liqpay-callback?order_id=${order_id}&email=${encodeURIComponent(
+          email
+        )}&status=sandbox`,
+      result_url: process.env.NEXT_PUBLIC_BASE_URL + "/payment-success",
     };
+
+    console.log(payloadObj.server_url);
 
     // Перетворюємо payload в base64
     const payloadStr = JSON.stringify(payloadObj);

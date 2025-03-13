@@ -1,13 +1,19 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 export default function PricingSection() {
+  const [email, setEmail] = useState("");
+
   const handlePurchase = async (priceId) => {
+    if (!email) {
+      alert("Будь ласка, введіть свій email");
+      return;
+    }
     try {
       const res = await fetch("/api/create-liqpay-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId }),
+        body: JSON.stringify({ priceId, email }),
       });
       const { data, signature, error } = await res.json();
 
@@ -15,7 +21,7 @@ export default function PricingSection() {
         throw new Error(error);
       }
 
-      // Створюємо форму динамічно та відправляємо її на LiqPay
+      // Create form dynamically and submit it to LiqPay
       const form = document.createElement("form");
       form.method = "POST";
       form.action = "https://www.liqpay.ua/api/3/checkout";
@@ -43,6 +49,21 @@ export default function PricingSection() {
   return (
     <section className="py-16 bg-gray-900 text-white">
       <div className="container mx-auto px-4">
+        {/* Email Input */}
+        <div className="mb-8 text-center">
+          <label htmlFor="email" className="block mb-2 text-lg">
+            Введіть свій email:
+          </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="your.email@example.com"
+            className="px-4 py-2 rounded text-black"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
         {/* Блок: Мої Продукти */}
         <h2 className="text-4xl font-bold text-center mb-8">Мої Продукти</h2>
         <div className="grid justify-center gap-8 md:grid-cols-2 lg:grid-cols-2">
@@ -53,7 +74,7 @@ export default function PricingSection() {
               Короткий опис продукту (наприклад, інтенсивна програма).
             </p>
             <button
-              onClick={() => handlePurchase("price_5day")} // Замініть на свій Price ID
+              onClick={() => handlePurchase("price_5day")}
               className="mt-4 bg-white text-blue-700 px-4 py-2 rounded font-semibold">
               Придбати
             </button>
@@ -65,12 +86,11 @@ export default function PricingSection() {
               Короткий опис продукту (довгострокова програма).
             </p>
             <button
-              onClick={() => handlePurchase("price_21day")} // Замініть на свій Price ID
+              onClick={() => handlePurchase("price_21day")}
               className="mt-4 bg-white text-blue-700 px-4 py-2 rounded font-semibold">
               Придбати
             </button>
           </div>
-          {/* Додаткові продукти */}
         </div>
 
         {/* Блок: Чему я учу */}
