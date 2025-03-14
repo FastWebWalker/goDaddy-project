@@ -1,4 +1,4 @@
 // Container Component
-export default function Container({ children }) {
-  return <div className="container mx-auto px-4 lg:w-4/5">{children}</div>;
+export default function Container({ children, className }) {
+  return <div className={`w-[91.666vw] mx-auto ${className}`}>{children}</div>;
 }
