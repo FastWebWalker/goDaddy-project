@@ -1,18 +1,18 @@
-import { Lora } from "next/font/google";
+import { Manrope } from "next/font/google";
 
-export const lora = Lora({
+export const manrope = Manrope({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500"],
 });
 
 export default function Text({
   children,
-  isLora = false,
-  size = "text-[14px]",
+  size = "text-[16px]",
   weight = "font-normal",
+  className,
 }) {
   return (
-    <p className={`${isLora && lora.className} ${size} ${weight}`}>
+    <p className={`${manrope.className} ${size} ${weight} ${className}`}>
       {children}
     </p>
   );
